@@ -39,7 +39,7 @@ function Dashboard() {
   const state = useAppState();
   const pct = overallAttendance(state);
   const today = dayName();
-  const todaysClasses = (DAYS as readonly string[]).includes(today)
+  const todaysClasses: string[] = (DAYS as readonly string[]).includes(today)
     ? (state.timetable[today] ?? [])
     : [];
   const pending = state.tasks.filter((t) => !t.done);
@@ -101,7 +101,7 @@ function Dashboard() {
           {todaysClasses.length === 0 ? (
             <li className="text-xs text-muted-foreground">No classes scheduled today.</li>
           ) : (
-            todaysClasses.map((id) => {
+            todaysClasses.map((id: string) => {
               const subject = state.subjects.find((s) => s.id === id);
               if (!subject) return null;
               return (

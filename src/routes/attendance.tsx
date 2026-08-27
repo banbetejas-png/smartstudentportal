@@ -70,7 +70,7 @@ function DailyMarker() {
   const state = useAppState();
   const today = dayName();
   const key = todayKey();
-  const ids = state.timetable[today] ?? [];
+  const ids: string[] = state.timetable[today] ?? [];
 
   function mark(subjectId: string, value: AttendanceMark | "clear") {
     setState((s) => {
@@ -96,7 +96,7 @@ function DailyMarker() {
           No classes scheduled today. Add them in the Timetable tab.
         </p>
       ) : (
-        ids.map((id) => {
+        ids.map((id: string) => {
           const subject = state.subjects.find((s) => s.id === id);
           if (!subject) return null;
           const current = state.attendance[key]?.[id];
@@ -115,7 +115,7 @@ function DailyMarker() {
                           : "text-muted-foreground"
                     }`}
                   >
-                    {current ? current[0].toUpperCase() + current.slice(1) : "Not marked"}
+                    {current ? current.charAt(0).toUpperCase() + current.slice(1) : "Not marked"}
                   </p>
                 </div>
                 <ProgressRing value={pct ?? 0} size={52} stroke={6} />

@@ -139,7 +139,7 @@ export function todayKey(d = new Date()) {
 }
 
 export function dayName(d = new Date()) {
-  return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()];
+  return (["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()] ?? "Mon") as string;
 }
 
 export function overallAttendance(s: AppState) {
