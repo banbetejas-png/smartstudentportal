@@ -22,6 +22,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Welcome() {
+  const navigate = useNavigate();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-between bg-navy px-6 py-14 text-primary-foreground">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
