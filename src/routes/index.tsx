@@ -61,7 +61,18 @@ function Welcome() {
         >
           I already have an account
         </Link>
+        <button
+          type="button"
+          onClick={() => {
+            loginAsDemo();
+            navigate({ to: "/dashboard" });
+          }}
+          className="block w-full rounded-2xl bg-white/10 py-3.5 text-center text-sm font-semibold text-white/90"
+        >
+          Try demo — skip login
+        </button>
       </div>
+
     </div>
   );
 }
