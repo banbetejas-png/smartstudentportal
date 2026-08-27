@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { GraduationCap, CalendarCheck, Receipt, ListTodo } from "lucide-react";
+import { loginAsDemo } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Welcome() {
+  const navigate = useNavigate();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-between bg-navy px-6 py-14 text-primary-foreground">
       <div className="flex flex-1 flex-col items-center justify-center text-center">
@@ -59,7 +61,18 @@ function Welcome() {
         >
           I already have an account
         </Link>
+        <button
+          type="button"
+          onClick={() => {
+            loginAsDemo();
+            navigate({ to: "/dashboard" });
+          }}
+          className="block w-full rounded-2xl bg-white/10 py-3.5 text-center text-sm font-semibold text-white/90"
+        >
+          Try demo — skip login
+        </button>
       </div>
+
     </div>
   );
 }

@@ -171,3 +171,17 @@ export function subjectAttendance(s: AppState, subjectId: string) {
 export function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
+
+export const demoStudent: Student = {
+  fullName: "Demo Student",
+  studentId: "DMCE2026001",
+  email: "demo@student.app",
+  branch: "Computer Engineering",
+  year: "3rd Year",
+  semester: "5",
+  password: "demo1234",
+};
+
+export function loginAsDemo() {
+  setState((s) => ({ ...s, student: s.student ?? demoStudent, loggedIn: true }));
+}
