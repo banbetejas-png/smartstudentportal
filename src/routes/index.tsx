@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { GraduationCap, CalendarCheck, Receipt, ListTodo } from "lucide-react";
+import { loginAsDemo } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
