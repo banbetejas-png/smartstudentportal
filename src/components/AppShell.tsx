@@ -107,7 +107,12 @@ export function ProgressRing({
         />
       </svg>
       <div className="absolute flex flex-col items-center">
-        <span className="text-2xl font-extrabold text-navy">{value}%</span>
+        <span
+          className="font-extrabold text-navy"
+          style={{ fontSize: Math.max(10, Math.round(size * 0.17)) }}
+        >
+          {value}%
+        </span>
         {label ? (
           <span className="text-[11px] font-medium text-muted-foreground">{label}</span>
         ) : null}
