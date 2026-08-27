@@ -142,7 +142,8 @@ function DailyMarker() {
 }
 
 function SubjectFeeder() {
-  const { subjects } = useAppState();
+  const state = useAppState();
+  const { subjects } = state;
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
 
@@ -192,7 +193,7 @@ function SubjectFeeder() {
       </form>
 
       {subjects.map((s) => {
-        const pct = subjectAttendance(useAppStateSnapshot(), s.id);
+        const pct = subjectAttendance(state, s.id);
         return (
           <div
             key={s.id}
@@ -216,10 +217,6 @@ function SubjectFeeder() {
       })}
     </div>
   );
-}
-
-function useAppStateSnapshot() {
-  return useAppState();
 }
 
 function TimetableGrid() {
