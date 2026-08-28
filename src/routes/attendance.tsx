@@ -141,21 +141,39 @@ function DailyMarker() {
   );
 }
 
+function SemesterSelect({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (n: number) => void;
+}) {
+  return (
+    <label className="block text-xs font-semibold text-muted-foreground">
+      Current Semester
+      <select
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="mt-1 w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm font-semibold text-navy outline-none focus:border-sky"
+      >
+        {Array.from({ length: 8 }, (_, i) => i + 1).map((n) => (
+          <option key={n} value={n}>
+            Semester {n}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function SubjectFeeder() {
   const state = useAppState();
-  const { subjects } = state;
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
+  const [open, setOpen] = useState(false);
+  const semester = state.currentSemester;
+  const list = state.subjects.filter((s) => s.semester === semester);
 
-  function add(e: React.FormEvent) {
-    e.preventDefault();
-    if (!name.trim()) return;
-    setState((s) => ({
-      ...s,
-      subjects: [...s.subjects, { id: uid(), name: name.trim(), code: code.trim() || "—" }],
-    }));
-    setName("");
-    setCode("");
+  function setSemester(n: number) {
+    setState((s) => ({ ...s, currentSemester: n }));
   }
 
   function remove(id: string) {
@@ -163,38 +181,21 @@ function SubjectFeeder() {
       ...s,
       subjects: s.subjects.filter((x) => x.id !== id),
       timetable: Object.fromEntries(
-        Object.entries(s.timetable).map(([d, list]) => [d, list.filter((x) => x !== id)]),
+        Object.entries(s.timetable).map(([d, l]) => [d, l.filter((x) => x !== id)]),
       ),
     }));
   }
 
   return (
     <div className="space-y-3">
-      <form onSubmit={add} className="flex gap-2">
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Subject name"
-          className="min-w-0 flex-1 rounded-xl border border-border bg-card px-3 py-2.5 text-xs outline-none focus:border-sky"
-        />
-        <input
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Code"
-          className="w-20 shrink-0 rounded-xl border border-border bg-card px-3 py-2.5 text-xs outline-none focus:border-sky"
-        />
-        <button
-          type="submit"
-          aria-label="Add subject"
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-navy text-primary-foreground"
-        >
-          <Plus className="h-4 w-4" />
-        </button>
-      </form>
+      <SemesterSelect value={semester} onChange={setSemester} />
 
-      {subjects.map((s) => {
-        const pct = subjectAttendance(state, s.id);
-        return (
+      {list.length === 0 ? (
+        <p className="rounded-2xl bg-card p-4 text-xs text-muted-foreground shadow-sm">
+          No subjects added for this semester. Click + to add one.
+        </p>
+      ) : (
+        list.map((s) => (
           <div
             key={s.id}
             className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl bg-card p-3 shadow-sm"
@@ -202,7 +203,7 @@ function SubjectFeeder() {
             <div className="min-w-0">
               <p className="truncate text-sm font-bold text-navy">{s.name}</p>
               <p className="text-[11px] text-muted-foreground">
-                {s.code} · {pct === null ? "No data" : `${pct}% attendance`}
+                {s.code} · {s.type}
               </p>
             </div>
             <button
@@ -213,42 +214,84 @@ function SubjectFeeder() {
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
-        );
-      })}
+        ))
+      )}
+
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Add subject"
+        className="fixed right-5 bottom-24 z-30 grid h-14 w-14 place-items-center rounded-full bg-sky text-primary-foreground shadow-lg"
+      >
+        <Plus className="h-6 w-6" />
+      </button>
+
+      <AddSubjectModal open={open} defaultSemester={semester} onClose={() => setOpen(false)} />
     </div>
   );
 }
 
 function TimetableGrid() {
-  const { subjects, timetable } = useAppState();
+  const state = useAppState();
+  const { timetable } = state;
+  const semester = state.currentSemester;
+  const subjects = state.subjects.filter((s) => s.semester === semester);
 
-  function toggle(day: string, subjectId: string) {
+  function assign(day: string, subjectId: string) {
+    if (!subjectId) return;
     setState((s) => {
       const list = s.timetable[day] ?? [];
-      const next = list.includes(subjectId)
-        ? list.filter((x) => x !== subjectId)
-        : [...list, subjectId];
-      return { ...s, timetable: { ...s.timetable, [day]: next } };
+      if (list.includes(subjectId)) return s;
+      return { ...s, timetable: { ...s.timetable, [day]: [...list, subjectId] } };
     });
+  }
+
+  function unassign(day: string, subjectId: string) {
+    setState((s) => ({
+      ...s,
+      timetable: { ...s.timetable, [day]: (s.timetable[day] ?? []).filter((x) => x !== subjectId) },
+    }));
   }
 
   return (
     <div className="space-y-3">
+      <SemesterSelect
+        value={semester}
+        onChange={(n) => setState((s) => ({ ...s, currentSemester: n }))}
+      />
+
+      {subjects.length === 0 ? (
+        <p className="rounded-2xl bg-card p-4 text-xs text-muted-foreground shadow-sm">
+          Add subjects for this semester first to build your timetable.
+        </p>
+      ) : null}
+
       {DAYS.map((day) => (
         <section key={day} className="rounded-2xl bg-card p-3 shadow-sm">
           <h3 className="text-sm font-bold text-navy">{day}</h3>
+          <select
+            value=""
+            onChange={(e) => assign(day, e.target.value)}
+            disabled={subjects.length === 0}
+            className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-2 text-xs outline-none focus:border-sky disabled:opacity-50"
+          >
+            <option value="">Add subject to {day}…</option>
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name} ({s.type})
+              </option>
+            ))}
+          </select>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {subjects.map((s) => {
-              const active = (timetable[day] ?? []).includes(s.id);
+            {(timetable[day] ?? []).map((id) => {
+              const s = state.subjects.find((x) => x.id === id);
+              if (!s) return null;
               return (
                 <button
-                  key={s.id}
-                  onClick={() => toggle(day, s.id)}
-                  className={`rounded-lg px-2.5 py-1.5 text-[11px] font-semibold ${
-                    active ? "bg-sky text-primary-foreground" : "bg-secondary text-muted-foreground"
-                  }`}
+                  key={id}
+                  onClick={() => unassign(day, id)}
+                  className="rounded-lg bg-sky px-2.5 py-1.5 text-[11px] font-semibold text-primary-foreground"
                 >
-                  {s.name}
+                  {s.name} ✕
                 </button>
               );
             })}
@@ -258,3 +301,4 @@ function TimetableGrid() {
     </div>
   );
 }
+
