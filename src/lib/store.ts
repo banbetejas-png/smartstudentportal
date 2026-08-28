@@ -10,7 +10,15 @@ export type Student = {
   password: string;
 };
 
-export type Subject = { id: string; name: string; code: string };
+export type SubjectType = "Theory" | "Lab";
+export type Subject = {
+  id: string;
+  name: string;
+  code: string;
+  semester: number;
+  type: SubjectType;
+  credits: number;
+};
 export type AttendanceMark = "present" | "absent" | "off";
 export type Task = {
   id: string;
@@ -29,6 +37,7 @@ export type FeeSemester = {
 export type AppState = {
   student: Student | null;
   loggedIn: boolean;
+  currentSemester: number;
   subjects: Subject[];
   timetable: Record<string, string[]>;
   attendance: Record<string, Record<string, AttendanceMark>>;
@@ -40,23 +49,22 @@ export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 
 const KEY = "smart-student-portal";
 
+export const placeholderProfile: Student = {
+  fullName: "Tejas Banbe",
+  studentId: "DMCE2026001",
+  email: "tejas@dmce.ac.in",
+  branch: "Computer Engineering",
+  year: "Third Year",
+  semester: "5",
+  password: "",
+};
+
 const defaultState: AppState = {
-  student: null,
+  student: placeholderProfile,
   loggedIn: false,
-  subjects: [
-    { id: "s1", name: "Data Structures", code: "CS201" },
-    { id: "s2", name: "Algorithms", code: "CS202" },
-    { id: "s3", name: "Database Systems", code: "CS203" },
-    { id: "s4", name: "Operating Systems", code: "CS204" },
-  ],
-  timetable: {
-    Mon: ["s1", "s2"],
-    Tue: ["s3", "s4"],
-    Wed: ["s1", "s3"],
-    Thu: ["s2", "s4"],
-    Fri: ["s1", "s4"],
-    Sat: ["s3"],
-  },
+  currentSemester: 5,
+  subjects: [],
+  timetable: {},
   attendance: {},
   tasks: [
     {
@@ -87,6 +95,7 @@ const defaultState: AppState = {
     paid: i < 3 ? 60000 : 0,
   })),
 };
+
 
 let state: AppState = defaultState;
 let hydrated = false;
