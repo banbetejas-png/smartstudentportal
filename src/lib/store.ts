@@ -34,6 +34,12 @@ export type FeeSemester = {
   receipt?: string;
 };
 
+export type Marks = {
+  ia1: number | null;
+  ia2: number | null;
+  external: number | null;
+};
+
 export type AppState = {
   student: Student | null;
   loggedIn: boolean;
@@ -43,7 +49,34 @@ export type AppState = {
   attendance: Record<string, Record<string, AttendanceMark>>;
   tasks: Task[];
   fees: FeeSemester[];
+  marks: Record<string, Marks>;
 };
+
+export const IA_MAX = 20;
+export const IA_TOTAL_MAX = 40;
+export const IA_PASS = 16;
+export const EXTERNAL_MAX = 60;
+export const EXTERNAL_PASS = 24;
+
+export const emptyMarks: Marks = { ia1: null, ia2: null, external: null };
+
+export function iaTotal(m: Marks) {
+  if (m.ia1 == null && m.ia2 == null) return null;
+  return (m.ia1 ?? 0) + (m.ia2 ?? 0);
+}
+
+export type MarkStatus = "pass" | "fail" | "incomplete";
+
+export function markStatus(m: Marks): MarkStatus {
+  if (m.ia1 == null || m.ia2 == null || m.external == null) return "incomplete";
+  return (m.ia1 + m.ia2 >= IA_PASS && m.external >= EXTERNAL_PASS) ? "pass" : "fail";
+}
+
+export function totalMarks(m: Marks) {
+  const ia = iaTotal(m);
+  if (ia == null && m.external == null) return null;
+  return (ia ?? 0) + (m.external ?? 0);
+}
 
 export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 
