@@ -74,6 +74,19 @@ function ProfilePage() {
         </ul>
       </section>
 
+      <section className="mt-4 rounded-2xl bg-card p-4 shadow-sm">
+        <h3 className="text-sm font-bold text-navy">About Us</h3>
+        <p className="mt-1 text-xs font-semibold text-sky">Developed by ATMS</p>
+        <ul className="mt-2 space-y-1 text-xs text-muted-foreground">
+          {["Tejas Banbe", "Atharva Bahulekar", "Mayur Bhoi", "Soham Bendal"].map((n) => (
+            <li key={n}>• {n}</li>
+          ))}
+        </ul>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Smart Student Portal • Version 1.0 (NEP Compliant)
+        </p>
+      </section>
+
       <button
         onClick={() => {
           setState((prev) => ({ ...prev, loggedIn: false }));
