@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { AppShell, ProgressRing } from "@/components/AppShell";
+import { AddSubjectModal } from "@/components/AddSubjectModal";
 import {
   DAYS,
   dayName,
