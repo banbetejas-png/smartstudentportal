@@ -1,11 +1,11 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, CalendarCheck, Receipt, User, Bell } from "lucide-react";
+import { Home, CalendarCheck, GraduationCap, User, Bell } from "lucide-react";
 import type { ReactNode } from "react";
 
 const NAV = [
   { to: "/dashboard", label: "Home", icon: Home },
   { to: "/attendance", label: "Attendance", icon: CalendarCheck },
-  { to: "/fees", label: "Fees", icon: Receipt },
+  { to: "/academics", label: "Academics", icon: GraduationCap },
   { to: "/profile", label: "Profile", icon: User },
 ] as const;
 

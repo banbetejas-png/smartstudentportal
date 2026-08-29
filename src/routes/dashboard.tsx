@@ -24,7 +24,7 @@ export const Route = createFileRoute("/dashboard")({
 const TABS = [
   { to: "/attendance", label: "Mark Today's Attendance", icon: CalendarCheck, tone: "navy" },
   { to: "/attendance", label: "My Timetable", icon: CalendarDays, tone: "sky" },
-  { to: "/fees", label: "Fee Management", icon: Receipt, tone: "teal" },
+  { to: "/academics", label: "Academics — Marks & Fees", icon: Receipt, tone: "teal" },
   { to: "/tasks", label: "Assignments & Journals", icon: ListTodo, tone: "soft" },
 ] as const;
 

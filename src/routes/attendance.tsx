@@ -178,22 +178,35 @@ function SubjectFeeder() {
   }
 
   function remove(id: string) {
-    setState((s) => ({
-      ...s,
-      subjects: s.subjects.filter((x) => x.id !== id),
-      timetable: Object.fromEntries(
-        Object.entries(s.timetable).map(([d, l]) => [d, l.filter((x) => x !== id)]),
-      ),
-    }));
+    setState((s) => {
+      const marks = { ...(s.marks ?? {}) };
+      delete marks[id];
+      return {
+        ...s,
+        subjects: s.subjects.filter((x) => x.id !== id),
+        marks,
+        timetable: Object.fromEntries(
+          Object.entries(s.timetable).map(([d, l]) => [d, l.filter((x) => x !== id)]),
+        ),
+      };
+    });
   }
 
   return (
     <div className="space-y-3">
-      <SemesterSelect value={semester} onChange={setSemester} />
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-2">
+        <SemesterSelect value={semester} onChange={setSemester} />
+        <button
+          onClick={() => setOpen(true)}
+          className="flex shrink-0 items-center gap-1 rounded-xl bg-sky px-3 py-2.5 text-xs font-bold text-primary-foreground"
+        >
+          <Plus className="h-4 w-4" /> Add Subject
+        </button>
+      </div>
 
       {list.length === 0 ? (
         <p className="rounded-2xl bg-card p-4 text-xs text-muted-foreground shadow-sm">
-          No subjects added for this semester. Click + to add one.
+          No subjects added for this semester. Tap “+ Add Subject”.
         </p>
       ) : (
         list.map((s) => (
@@ -217,14 +230,6 @@ function SubjectFeeder() {
           </div>
         ))
       )}
-
-      <button
-        onClick={() => setOpen(true)}
-        aria-label="Add subject"
-        className="fixed right-5 bottom-24 z-30 grid h-14 w-14 place-items-center rounded-full bg-sky text-primary-foreground shadow-lg"
-      >
-        <Plus className="h-6 w-6" />
-      </button>
 
       <AddSubjectModal open={open} defaultSemester={semester} onClose={() => setOpen(false)} />
     </div>
