@@ -43,7 +43,9 @@ export type Marks = {
 export type AppState = {
   student: Student | null;
   loggedIn: boolean;
-  currentSemester: number;
+  subjectsSemester: number;
+  attendanceSemester: number;
+  academicsSemester: number;
   subjects: Subject[];
   timetable: Record<string, string[]>;
   attendance: Record<string, Record<string, AttendanceMark>>;
