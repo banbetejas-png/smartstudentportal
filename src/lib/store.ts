@@ -97,7 +97,9 @@ export const placeholderProfile: Student = {
 const defaultState: AppState = {
   student: placeholderProfile,
   loggedIn: false,
-  currentSemester: 5,
+  subjectsSemester: 5,
+  attendanceSemester: 5,
+  academicsSemester: 5,
   subjects: [],
   timetable: {},
   attendance: {},
