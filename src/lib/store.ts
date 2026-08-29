@@ -127,6 +127,7 @@ const defaultState: AppState = {
     total: 60000,
     paid: i < 3 ? 60000 : 0,
   })),
+  marks: {},
 };
 
 
