@@ -43,7 +43,9 @@ export type Marks = {
 export type AppState = {
   student: Student | null;
   loggedIn: boolean;
-  currentSemester: number;
+  subjectsSemester: number;
+  attendanceSemester: number;
+  academicsSemester: number;
   subjects: Subject[];
   timetable: Record<string, string[]>;
   attendance: Record<string, Record<string, AttendanceMark>>;
@@ -95,7 +97,9 @@ export const placeholderProfile: Student = {
 const defaultState: AppState = {
   student: placeholderProfile,
   loggedIn: false,
-  currentSemester: 5,
+  subjectsSemester: 5,
+  attendanceSemester: 5,
+  academicsSemester: 5,
   subjects: [],
   timetable: {},
   attendance: {},
@@ -140,7 +144,17 @@ function hydrate() {
   hydrated = true;
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (raw) state = { ...defaultState, ...JSON.parse(raw) };
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<AppState> & { currentSemester?: number };
+      const legacy = Number(parsed.currentSemester) || defaultState.subjectsSemester;
+      state = {
+        ...defaultState,
+        ...parsed,
+        subjectsSemester: parsed.subjectsSemester ?? legacy,
+        attendanceSemester: parsed.attendanceSemester ?? legacy,
+        academicsSemester: parsed.academicsSemester ?? legacy,
+      };
+    }
   } catch {
     /* ignore */
   }
