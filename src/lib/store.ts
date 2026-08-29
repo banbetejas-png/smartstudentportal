@@ -144,7 +144,17 @@ function hydrate() {
   hydrated = true;
   try {
     const raw = window.localStorage.getItem(KEY);
-    if (raw) state = { ...defaultState, ...JSON.parse(raw) };
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<AppState> & { currentSemester?: number };
+      const legacy = Number(parsed.currentSemester) || defaultState.subjectsSemester;
+      state = {
+        ...defaultState,
+        ...parsed,
+        subjectsSemester: parsed.subjectsSemester ?? legacy,
+        attendanceSemester: parsed.attendanceSemester ?? legacy,
+        academicsSemester: parsed.academicsSemester ?? legacy,
+      };
+    }
   } catch {
     /* ignore */
   }
