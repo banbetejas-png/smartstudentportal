@@ -1,5 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarCheck, CalendarDays, Receipt, ListTodo, ChevronRight } from "lucide-react";
+import {
+  CalendarCheck,
+  CalendarDays,
+  Receipt,
+  ListTodo,
+  ChevronRight,
+  BookPlus,
+} from "lucide-react";
 import { AppShell, ProgressRing } from "@/components/AppShell";
 import { DAYS, dayName, overallAttendance, useAppState } from "@/lib/store";
 

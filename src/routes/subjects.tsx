@@ -106,7 +106,12 @@ function SubjectsPage() {
         )}
       </div>
 
-      <AddSubjectModal open={open} defaultSemester={semester} onClose={() => setOpen(false)} />
+      <AddSubjectModal
+        key={semester}
+        open={open}
+        defaultSemester={semester}
+        onClose={() => setOpen(false)}
+      />
     </AppShell>
   );
 }
