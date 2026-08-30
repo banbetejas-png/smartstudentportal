@@ -170,11 +170,11 @@ function SemesterSelect({
 function SubjectFeeder() {
   const state = useAppState();
   const [open, setOpen] = useState(false);
-  const semester = state.currentSemester;
+  const semester = state.attendanceSemester;
   const list = state.subjects.filter((s) => s.semester === semester);
 
   function setSemester(n: number) {
-    setState((s) => ({ ...s, currentSemester: n }));
+    setState((s) => ({ ...s, attendanceSemester: n }));
   }
 
   function remove(id: string) {
@@ -239,7 +239,7 @@ function SubjectFeeder() {
 function TimetableGrid() {
   const state = useAppState();
   const { timetable } = state;
-  const semester = state.currentSemester;
+  const semester = state.attendanceSemester;
   const subjects = state.subjects.filter((s) => s.semester === semester);
 
   function assign(day: string, subjectId: string) {
@@ -262,7 +262,7 @@ function TimetableGrid() {
     <div className="space-y-3">
       <SemesterSelect
         value={semester}
-        onChange={(n) => setState((s) => ({ ...s, currentSemester: n }))}
+        onChange={(n) => setState((s) => ({ ...s, attendanceSemester: n }))}
       />
 
       {subjects.length === 0 ? (

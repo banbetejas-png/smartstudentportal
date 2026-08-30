@@ -1,5 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarCheck, CalendarDays, Receipt, ListTodo, ChevronRight } from "lucide-react";
+import {
+  CalendarCheck,
+  CalendarDays,
+  Receipt,
+  ListTodo,
+  ChevronRight,
+  BookPlus,
+} from "lucide-react";
 import { AppShell, ProgressRing } from "@/components/AppShell";
 import { DAYS, dayName, overallAttendance, useAppState } from "@/lib/store";
 
@@ -67,6 +74,22 @@ function Dashboard() {
             ))}
           </div>
         </div>
+
+        <Link
+          to="/subjects"
+          className="mt-3 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-2xl bg-navy p-3 text-primary-foreground"
+        >
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/15">
+            <BookPlus className="h-4.5 w-4.5" />
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-bold">Add / Manage Subjects</span>
+            <span className="block truncate text-[11px] text-white/70">
+              Semester-wise, synced with attendance &amp; marks
+            </span>
+          </span>
+          <ChevronRight className="h-4 w-4 shrink-0" />
+        </Link>
       </section>
 
       <section className="mt-5">
