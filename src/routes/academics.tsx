@@ -9,10 +9,8 @@ import {
   emptyMarks,
   iaTotal,
   markStatus,
+  schemeOf,
   totalMarks,
-  IA_MAX,
-  IA_TOTAL_MAX,
-  EXTERNAL_MAX,
   type FeeSemester,
   type Marks,
   type Subject,
@@ -73,7 +71,7 @@ function MarksTab() {
   const semester = state.academicsSemester;
   const list = state.subjects.filter((s) => s.semester === semester);
 
-  const statuses = list.map((s) => markStatus(state.marks?.[s.id] ?? emptyMarks));
+  const statuses = list.map((s) => markStatus(state.marks?.[s.id] ?? emptyMarks, s));
   const passed = statuses.filter((x) => x === "pass").length;
   const atRisk = statuses.filter((x) => x === "fail").length;
   const scored = list
@@ -135,9 +133,10 @@ function Stat({ label, value }: { label: string; value: string }) {
 }
 
 function MarkCard({ subject, marks }: { subject: Subject; marks: Marks }) {
+  const rules = schemeOf(subject);
   const ia = iaTotal(marks);
   const total = totalMarks(marks);
-  const status = markStatus(marks);
+  const status = markStatus(marks, subject);
 
   function update(patch: Partial<Marks>) {
     setState((s) => ({
