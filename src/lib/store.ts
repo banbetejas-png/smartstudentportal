@@ -95,9 +95,10 @@ export function iaTotal(m: Marks) {
 
 export type MarkStatus = "pass" | "fail" | "incomplete";
 
-export function markStatus(m: Marks): MarkStatus {
+export function markStatus(m: Marks, subject?: Pick<Subject, "scheme"> | null): MarkStatus {
   if (m.ia1 == null || m.ia2 == null || m.external == null) return "incomplete";
-  return (m.ia1 + m.ia2 >= IA_PASS && m.external >= EXTERNAL_PASS) ? "pass" : "fail";
+  const rules = schemeOf(subject);
+  return (m.ia1 + m.ia2 >= rules.iaPass && m.external >= rules.externalPass) ? "pass" : "fail";
 }
 
 export function totalMarks(m: Marks) {
