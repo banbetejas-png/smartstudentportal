@@ -11,6 +11,12 @@ export type Student = {
 };
 
 export type SubjectType = "Theory" | "Lab";
+export type ExamScheme = {
+  /** max marks for each IA (IA 1 and IA 2 share the same max) */
+  iaMax: number;
+  /** max marks for the external exam */
+  externalMax: number;
+};
 export type Subject = {
   id: string;
   name: string;
@@ -18,6 +24,7 @@ export type Subject = {
   semester: number;
   type: SubjectType;
   credits: number;
+  scheme?: ExamScheme;
 };
 export type AttendanceMark = "present" | "absent" | "off";
 export type Task = {
@@ -54,11 +61,30 @@ export type AppState = {
   marks: Record<string, Marks>;
 };
 
-export const IA_MAX = 20;
-export const IA_TOTAL_MAX = 40;
-export const IA_PASS = 16;
-export const EXTERNAL_MAX = 60;
-export const EXTERNAL_PASS = 24;
+export const DEFAULT_SCHEME: ExamScheme = { iaMax: 20, externalMax: 60 };
+
+export type SchemeRules = ExamScheme & {
+  iaTotalMax: number;
+  iaPass: number;
+  externalPass: number;
+  overallMax: number;
+};
+
+/** Resolve a subject's exam scheme (falls back to 20/40 IA + 60 external). Pass = 40% of each total. */
+export function schemeOf(subject?: Pick<Subject, "scheme"> | null): SchemeRules {
+  const s = subject?.scheme ?? DEFAULT_SCHEME;
+  const iaMax = s.iaMax > 0 ? s.iaMax : DEFAULT_SCHEME.iaMax;
+  const externalMax = s.externalMax > 0 ? s.externalMax : DEFAULT_SCHEME.externalMax;
+  const iaTotalMax = iaMax * 2;
+  return {
+    iaMax,
+    externalMax,
+    iaTotalMax,
+    iaPass: Math.ceil(iaTotalMax * 0.4),
+    externalPass: Math.ceil(externalMax * 0.4),
+    overallMax: iaTotalMax + externalMax,
+  };
+}
 
 export const emptyMarks: Marks = { ia1: null, ia2: null, external: null };
 
