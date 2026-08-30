@@ -52,6 +52,7 @@ export function AddSubjectModal({
           semester: Number(semester),
           type,
           credits: Number(credits) || 0,
+          scheme,
         },
       ],
     }));
@@ -59,6 +60,9 @@ export function AddSubjectModal({
     setCode("");
     setCredits("3");
     setType("Theory");
+    setPreset("0");
+    setCustomIa("20");
+    setCustomExt("60");
     onClose();
   }
 
@@ -129,6 +133,47 @@ export function AddSubjectModal({
             value={credits}
             onChange={(e) => setCredits(e.target.value)}
           />
+
+          <label className="block text-xs font-semibold text-muted-foreground">
+            Exam Scheme
+            <select
+              className={`mt-1 ${field}`}
+              value={preset}
+              onChange={(e) => setPreset(e.target.value)}
+            >
+              {SCHEME_PRESETS.map((p, i) => (
+                <option key={p.label} value={String(i)}>
+                  {p.label}
+                </option>
+              ))}
+              <option value="custom">Custom…</option>
+            </select>
+          </label>
+
+          {preset === "custom" ? (
+            <div className="grid grid-cols-2 gap-2">
+              <label className="block text-[11px] font-semibold text-muted-foreground">
+                IA max (each)
+                <input
+                  className={`mt-1 ${field}`}
+                  type="number"
+                  min="1"
+                  value={customIa}
+                  onChange={(e) => setCustomIa(e.target.value)}
+                />
+              </label>
+              <label className="block text-[11px] font-semibold text-muted-foreground">
+                External max
+                <input
+                  className={`mt-1 ${field}`}
+                  type="number"
+                  min="1"
+                  value={customExt}
+                  onChange={(e) => setCustomExt(e.target.value)}
+                />
+              </label>
+            </div>
+          ) : null}
 
           <button
             type="submit"
