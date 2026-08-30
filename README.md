@@ -70,9 +70,7 @@ Screen-by-Screen Requirements:
 
 7. Profile Settings: A screen displaying user details (from Signup), app preferences, and a prominent Logout button.
 
-I have also attached some ui interface design i want same like it or some better 
 
-Also don't use credits if error is created by your ai please I am very poor
 
 This project was built with [Lovable](https://lovable.dev).
 
