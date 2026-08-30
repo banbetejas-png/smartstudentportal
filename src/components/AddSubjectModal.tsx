@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import { setState, uid, type SubjectType } from "@/lib/store";
+import { setState, uid, type ExamScheme, type SubjectType } from "@/lib/store";
+
+const SCHEME_PRESETS = [
+  { label: "20 + 20 IA / 60 External", scheme: { iaMax: 20, externalMax: 60 } },
+  { label: "15 + 15 IA / 45 External", scheme: { iaMax: 15, externalMax: 45 } },
+  { label: "10 + 10 IA / 30 External", scheme: { iaMax: 10, externalMax: 30 } },
+] as const;
 
 const field =
   "w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none focus:border-sky";
@@ -19,12 +25,22 @@ export function AddSubjectModal({
   const [code, setCode] = useState("");
   const [type, setType] = useState<SubjectType>("Theory");
   const [credits, setCredits] = useState("3");
+  const [preset, setPreset] = useState<string>("0");
+  const [customIa, setCustomIa] = useState("20");
+  const [customExt, setCustomExt] = useState("60");
 
   if (!open) return null;
 
   function save(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim()) return;
+    const scheme: ExamScheme =
+      preset === "custom"
+        ? {
+            iaMax: Math.max(1, Number(customIa) || 20),
+            externalMax: Math.max(1, Number(customExt) || 60),
+          }
+        : { ...SCHEME_PRESETS[Number(preset)]!.scheme };
     setState((s) => ({
       ...s,
       subjects: [
