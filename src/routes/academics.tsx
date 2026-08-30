@@ -70,7 +70,7 @@ function AcademicsPage() {
 function MarksTab() {
   const state = useAppState();
   const [open, setOpen] = useState(false);
-  const semester = state.currentSemester;
+  const semester = state.academicsSemester;
   const list = state.subjects.filter((s) => s.semester === semester);
 
   const statuses = list.map((s) => markStatus(state.marks?.[s.id] ?? emptyMarks));
@@ -88,7 +88,7 @@ function MarksTab() {
           Current Semester
           <select
             value={semester}
-            onChange={(e) => setState((s) => ({ ...s, currentSemester: Number(e.target.value) }))}
+            onChange={(e) => setState((s) => ({ ...s, academicsSemester: Number(e.target.value) }))}
             className="mt-1 w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm font-semibold text-navy outline-none focus:border-sky"
           >
             {Array.from({ length: 8 }, (_, i) => i + 1).map((n) => (
