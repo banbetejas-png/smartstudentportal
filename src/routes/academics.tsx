@@ -168,20 +168,20 @@ function MarkCard({ subject, marks }: { subject: Subject; marks: Marks }) {
 
       <div className="mt-3 grid grid-cols-3 gap-2">
         <NumField
-          label={`IA 1 /${IA_MAX}`}
-          max={IA_MAX}
+          label={`IA 1 /${rules.iaMax}`}
+          max={rules.iaMax}
           value={marks.ia1}
           onChange={(v) => update({ ia1: v })}
         />
         <NumField
-          label={`IA 2 /${IA_MAX}`}
-          max={IA_MAX}
+          label={`IA 2 /${rules.iaMax}`}
+          max={rules.iaMax}
           value={marks.ia2}
           onChange={(v) => update({ ia2: v })}
         />
         <NumField
-          label={`Ext /${EXTERNAL_MAX}`}
-          max={EXTERNAL_MAX}
+          label={`Ext /${rules.externalMax}`}
+          max={rules.externalMax}
           value={marks.external}
           onChange={(v) => update({ external: v })}
         />
@@ -189,12 +189,14 @@ function MarkCard({ subject, marks }: { subject: Subject; marks: Marks }) {
 
       <div className="mt-3 flex flex-wrap gap-3 text-[11px] font-semibold text-muted-foreground">
         <span>
-          IA Total: {ia ?? "—"}/{IA_TOTAL_MAX}
+          IA Total: {ia ?? "—"}/{rules.iaTotalMax} (pass {rules.iaPass})
         </span>
         <span>
-          External: {marks.external ?? "—"}/{EXTERNAL_MAX}
+          External: {marks.external ?? "—"}/{rules.externalMax} (pass {rules.externalPass})
         </span>
-        <span>Overall: {total ?? "—"}/100</span>
+        <span>
+          Overall: {total ?? "—"}/{rules.overallMax}
+        </span>
       </div>
     </article>
   );
