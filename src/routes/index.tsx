@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { GraduationCap, CalendarCheck, Receipt, ListTodo } from "lucide-react";
+import {
+  GraduationCap,
+  CalendarCheck,
+  Receipt,
+  ListTodo,
+  Sparkles,
+  BookOpen,
+  Pencil,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,17 +31,63 @@ export const Route = createFileRoute("/")({
 function Welcome() {
   return (
     <div className="relative mx-auto min-h-screen w-full max-w-md overflow-hidden bg-navy text-primary-foreground">
-      {/* Portal glow ring that bursts open on app launch */}
+      {/* Soft academic canvas blobs */}
       <div
         aria-hidden
-        className="animate-portal-ring pointer-events-none absolute left-1/2 top-[42%] h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="animate-canvas-blob-1 pointer-events-none absolute -left-12 top-[18%] h-40 w-40 rounded-full bg-sky/15 blur-3xl"
       />
-      {/* Screen content revealed through an expanding iris */}
-      <div className="animate-portal-iris flex min-h-screen flex-col justify-between px-6 py-14">
+      <div
+        aria-hidden
+        className="animate-canvas-blob-2 pointer-events-none absolute -right-12 bottom-[28%] h-48 w-48 rounded-full bg-teal/15 blur-3xl"
+      />
+
+      {/* Screen content unfolds like a digital canvas */}
+      <div className="animate-canvas-reveal flex min-h-screen flex-col justify-between px-6 py-14">
         <div className="flex flex-1 flex-col items-center justify-center text-center">
-          <div className="animate-portal-logo grid h-24 w-24 place-items-center rounded-3xl bg-white/10 ring-1 ring-white/20">
-            <GraduationCap className="h-12 w-12" />
+          {/* Student canvas — rings, cap and orbiting study tools */}
+          <div className="relative flex h-64 w-full items-center justify-center">
+            {/* Rotating compass rings */}
+            <div
+              aria-hidden
+              className="absolute h-56 w-56 rounded-full border-2 border-sky/20 animate-[spin_20s_linear_infinite]"
+            />
+            <div
+              aria-hidden
+              className="absolute h-64 w-64 rounded-full border border-dashed border-teal/30 animate-[spin_15s_linear_infinite_reverse]"
+            />
+
+            {/* Central graduation cap */}
+            <div className="animate-canvas-cap-pop relative z-10 grid h-32 w-32 place-items-center rounded-[2rem] bg-white shadow-[0_20px_50px_rgba(59,130,246,0.25)]">
+              <GraduationCap className="h-16 w-16 text-navy" />
+            </div>
+
+            {/* Orbiting student assets */}
+            <div
+              aria-hidden
+              className="animate-canvas-orbit pointer-events-none absolute left-1/2 top-1/2 -ml-5 -mt-5"
+            >
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-white shadow-lg">
+                <Sparkles className="h-5 w-5 text-warning" />
+              </div>
+            </div>
+            <div
+              aria-hidden
+              className="animate-canvas-orbit-reverse pointer-events-none absolute left-1/2 top-1/2 -ml-6 -mt-6 [animation-delay:-6s]"
+            >
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-lg">
+                <BookOpen className="h-6 w-6 text-teal" />
+              </div>
+            </div>
+            <div
+              aria-hidden
+              className="animate-canvas-orbit pointer-events-none absolute left-1/2 top-1/2 -ml-4 -mt-4 [animation-delay:-3s] [animation-duration:9s]"
+            >
+              <div className="grid h-9 w-9 place-items-center rounded-lg bg-white shadow-md">
+                <Pencil className="h-5 w-5 text-sky" />
+              </div>
+            </div>
           </div>
+
           <h1 className="animate-fade-in mt-8 text-3xl font-extrabold tracking-tight [animation-delay:600ms] [animation-fill-mode:both]">
             Smart Student Portal
           </h1>
