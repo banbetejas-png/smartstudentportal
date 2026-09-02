@@ -1,96 +1,119 @@
-# Smart Student Hub
+# Smart Student Portal
 
-Project Type: Mobile App
+A mobile-first Progressive Web App (PWA) built for university students to manage attendance, subjects, marks, fees, tasks, and timetable — all offline in the browser using device storage.
 
-App Name: Smart Student Portal
+**Live app:** https://smartstudentportal.lovable.app
 
-Description & Key Features: A comprehensive mobile application designed for university students to manage academics, attendance, fees, and tasks. The design must be clean, professional, and intuitive, using a color palette of Navy Blue (#1E3A8A), Sky Blue (#3B82F6), Teal (#14B8A6), and Crisp White (#FFFFFF).
+## Features
 
+- **Student onboarding** — Create a local profile (name, student ID, email, branch, year, semester). No email verification or cloud account required.
+- **Today-first dashboard** — Greeting, attendance progress ring, today's schedule with inline Present/Absent/Off marking, upcoming deadlines, and quick links.
+- **Subject manager** — Add subjects per semester with name, code, type (Theory/Lab), credits, and custom exam scheme (IA + External max marks). Subjects sync across Attendance and Academics.
+- **Attendance tracker** — Semester-filtered subject list and weekly timetable grid with daily attendance markers.
+- **Academics hub** —
+  - **Marks:** IA 1, IA 2, and External marks per subject with automatic pass/fail based on each subject's exam scheme.
+  - **Fees:** 8-semester fee cards with paid/total amounts and receipt upload.
+- **Tasks & reminders** — Active and completed task lists with due-soon warnings.
+- **Profile** — View/edit profile details, About Us card, and logout.
+- **PWA / offline** — Installable on phones, works offline after first load (service worker activates on the published domain, not inside the Lovable preview).
 
+## Tech Stack
 
-Screen-by-Screen Requirements:
+- [React 19](https://react.dev/)
+- [TanStack Start](https://tanstack.com/start/) + [TanStack Router](https://tanstack.com/router/)
+- [Vite 8](https://vitejs.dev/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/) components
+- [date-fns](https://date-fns.org/), [lucide-react](https://lucide.dev/), [recharts](https://recharts.org/)
+- [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) for the service worker and manifest
 
+## Local Development
 
+This project uses `bun`. If you don't have it installed, get it from [bun.sh](https://bun.sh/).
 
-1. Splash & Onboarding: A simple welcome screen with the app logo and a "Get Started" button leading to Login/Signup.
-
-
-
-2. Authentication (Login & Signup):
-
-   - Login Screen: Fields for Email and Password, a "Forgot Password?" link, and a "Login" button. Include a "Don't have an account? Sign Up" link.
-
-   - Signup Screen: A multi-input form capturing: Full Name, Student ID, Email, Branch, Year, and Semester, followed by a "Create Account" button.
-
-
-
-3. Dashboard (Home Screen) - CRITICAL LAYOUT REQUIREMENT:
-
-   - Header: App title "Smart Student Portal" and a profile icon.
-
-   - Main Section: A prominent, central circular progress ring showing the overall "Total Attendance Percentage" (e.g., 85% with the number inside the circle).
-
-   - Interactive Tabs: Immediately beside the circular progress ring, place four distinct, interactive, rounded-corner navigation cards/tabs:
-
-     * "Mark Today's Attendance" (with calendar/checkmark icon).
-
-     * "My Timetable" (with schedule icon).
-
-     * "Fee Management" (with rupee/receipt icon).
-
-     * "Assignments & Journals" (with task list icon).
-
-   - Quick Access Section: Below the main cluster, include two smaller summary cards: "Today's Classes" and "Upcoming Deadlines".
-
-   - Navigation: A persistent bottom navigation bar with icons for: Home, Attendance, Fees, and Profile.
-
-
-
-4. Attendance Center (The Workflow):
-
-   - Subject Feeder: A list view screen where subjects can be added/managed (+ button).
-
-   - Timetable Grid: A clean, weekly grid view (Mon-Sat) where specific subjects are assigned to daily slots.
-
-   - Daily Attendance Marker: A simplified list view of today's subjects, where each class has four actionable buttons/toggles for: Present, Absent, Off, Clear.
-
-
-
-5. Fee Manager: An 8-semester structured view. Each semester is a card displaying Total Fees, Amount Paid, Status (Paid/Pending), and a prominent "Upload Receipt" button (icon for PDF/Image). It calculates and displays the overall total fees paid.
-
-
-
-6. Tasks & Reminders: A screen with two tabs:
-
-   - Active Tasks: A scrollable list of Assignments/Journals showing Subject, Deadline, and a "Mark as Done" checkbox. Include a visual warning (e.g., red bell) for tasks due soon.
-
-   - Completed History: A tab listing finished tasks.
-
-
-
-7. Profile Settings: A screen displaying user details (from Signup), app preferences, and a prominent Logout button.
-
-
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://smartstudentportal.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/501bc108-ed9c-4564-b069-28f2bad55708).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
+```bash
+# 1. Clone the repository
 git clone <this-repository-url>
 cd <repository-name>
-npm i
-npm run dev
+
+# 2. Install dependencies
+bun install
+
+# 3. Start the dev server
+bun run dev
 ```
+
+The app will be available at `http://localhost:8080` by default.
+
+### Other useful commands
+
+```bash
+# Build for production
+bun run build
+
+# Preview the production build
+bun run preview
+
+# Lint
+bun run lint
+
+# Format code
+bun run format
+```
+
+> **Note:** If you prefer npm, you can run `npm install` and `npm run dev` instead. The lockfile is `bun.lock`.
+
+## Project Structure
+
+```text
+src/
+  components/        # Reusable UI components (AppShell, ProgressRing, AddSubjectModal, etc.)
+  hooks/             # Custom React hooks
+  lib/               # State/store, helpers, and utilities
+  routes/            # TanStack Start file-based routes
+  router.tsx         # Router configuration
+  server.ts          # SSR server entry wrapper
+  start.ts           # App start configuration
+  styles.css         # Global styles and Tailwind theme tokens
+public/              # Static assets (PWA icons, favicon, robots.txt)
+vite.config.ts       # Vite + PWA configuration
+```
+
+## How Data Works
+
+All data is stored locally in the browser (`localStorage`). This means:
+
+- ✅ Works fully offline after first load.
+- ✅ No login, backend, or database setup needed.
+- ⚠️ Data is tied to the device/browser. Clearing browser data will erase it.
+
+## PWA / Offline Notes
+
+- The service worker is **disabled in the Lovable preview** to avoid caching issues during development.
+- To test offline installation, open the **published URL** on your phone, then use **Add to Home Screen** (Chrome/Safari).
+- After installing, the app can be opened from the home screen icon and works offline.
+
+## Exporting to GitHub from Lovable
+
+This repo is synced from the Lovable editor. To reconnect or export:
+
+1. Open the project in Lovable.
+2. Click the **Plus (+)** menu in the chat input (bottom left).
+3. Go to **GitHub → Connect project**.
+4. Authorize the Lovable GitHub App and pick the account/organization.
+5. Click **Create Repository**.
+
+Changes pushed to `main` on GitHub sync back into Lovable, and changes made in Lovable push to GitHub automatically.
+
+## Developers
+
+- Tejas Banbe
+- Atharva Bahulekar
+- Mayur Bhoi
+- Soham Bendal
+
+**Version:** 1.0 (NEP Compliant)
+
+---
+
+Built with [Lovable](https://lovable.dev).
