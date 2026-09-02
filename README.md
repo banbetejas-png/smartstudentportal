@@ -29,7 +29,13 @@ A mobile-first Progressive Web App (PWA) built for university students to manage
 
 ## Local Development
 
-This project uses `bun`. If you don't have it installed, get it from [bun.sh](https://bun.sh/).
+This project uses **npm** and **Node 20**. If you use `nvm`, run:
+
+```bash
+nvm use
+```
+
+Then:
 
 ```bash
 # 1. Clone the repository
@@ -37,10 +43,10 @@ git clone <this-repository-url>
 cd <repository-name>
 
 # 2. Install dependencies
-bun install
+npm install
 
 # 3. Start the dev server
-bun run dev
+npm run dev
 ```
 
 The app will be available at `http://localhost:8080` by default.
@@ -49,19 +55,17 @@ The app will be available at `http://localhost:8080` by default.
 
 ```bash
 # Build for production
-bun run build
+npm run build
 
 # Preview the production build
-bun run preview
+npm run preview
 
 # Lint
-bun run lint
+npm run lint
 
 # Format code
-bun run format
+npm run format
 ```
-
-> **Note:** If you prefer npm, you can run `npm install` and `npm run dev` instead. The lockfile is `bun.lock`.
 
 ## Project Structure
 
