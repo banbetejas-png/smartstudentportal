@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { setState, useAppState } from "@/lib/store";
+import { authenticate, setSession } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -26,6 +27,17 @@ function LoginPage() {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    const demoSession = authenticate(email, password);
+    if (demoSession) {
+      setSession(demoSession);
+      if (demoSession.role === "teacher") {
+        navigate({ to: "/teacher/dashboard" });
+      } else {
+        setState((s) => ({ ...s, loggedIn: true }));
+        navigate({ to: "/dashboard" });
+      }
+      return;
+    }
     if (!student) {
       setError("No account found on this device. Please sign up first.");
       return;
