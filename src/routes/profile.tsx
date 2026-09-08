@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LogOut, User } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { overallAttendance, setState, useAppState } from "@/lib/store";
+import { clearSession } from "@/lib/auth";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -89,6 +90,7 @@ function ProfilePage() {
 
       <button
         onClick={() => {
+          clearSession();
           setState((prev) => ({ ...prev, loggedIn: false }));
           navigate({ to: "/login", replace: true });
         }}
