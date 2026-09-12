@@ -20,7 +20,10 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SubjectsRouteImport } from './routes/subjects'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as TeacherRouteImport } from './routes/teacher'
+import { Route as TeacherAssignmentsRouteImport } from './routes/teacher.assignments'
 import { Route as TeacherDashboardRouteImport } from './routes/teacher.dashboard'
+import { Route as TeacherSubjectsRouteImport } from './routes/teacher.subjects'
+import { Route as TeacherSubmissionsRouteImport } from './routes/teacher.submissions'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -77,9 +80,24 @@ const TeacherRoute = TeacherRouteImport.update({
   path: '/teacher',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeacherAssignmentsRoute = TeacherAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => TeacherRoute,
+} as any)
 const TeacherDashboardRoute = TeacherDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => TeacherRoute,
+} as any)
+const TeacherSubjectsRoute = TeacherSubjectsRouteImport.update({
+  id: '/subjects',
+  path: '/subjects',
+  getParentRoute: () => TeacherRoute,
+} as any)
+const TeacherSubmissionsRoute = TeacherSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
   getParentRoute: () => TeacherRoute,
 } as any)
 
@@ -95,7 +113,10 @@ export interface FileRoutesByFullPath {
   '/subjects': typeof SubjectsRoute
   '/tasks': typeof TasksRoute
   '/teacher': typeof TeacherRouteWithChildren
+  '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/subjects': typeof TeacherSubjectsRoute
+  '/teacher/submissions': typeof TeacherSubmissionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,7 +130,10 @@ export interface FileRoutesByTo {
   '/subjects': typeof SubjectsRoute
   '/tasks': typeof TasksRoute
   '/teacher': typeof TeacherRouteWithChildren
+  '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/subjects': typeof TeacherSubjectsRoute
+  '/teacher/submissions': typeof TeacherSubmissionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,7 +148,10 @@ export interface FileRoutesById {
   '/subjects': typeof SubjectsRoute
   '/tasks': typeof TasksRoute
   '/teacher': typeof TeacherRouteWithChildren
+  '/teacher/assignments': typeof TeacherAssignmentsRoute
   '/teacher/dashboard': typeof TeacherDashboardRoute
+  '/teacher/subjects': typeof TeacherSubjectsRoute
+  '/teacher/submissions': typeof TeacherSubmissionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,7 +167,10 @@ export interface FileRouteTypes {
     | '/subjects'
     | '/tasks'
     | '/teacher'
+    | '/teacher/assignments'
     | '/teacher/dashboard'
+    | '/teacher/subjects'
+    | '/teacher/submissions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,7 +184,10 @@ export interface FileRouteTypes {
     | '/subjects'
     | '/tasks'
     | '/teacher'
+    | '/teacher/assignments'
     | '/teacher/dashboard'
+    | '/teacher/subjects'
+    | '/teacher/submissions'
   id:
     | '__root__'
     | '/'
@@ -168,7 +201,10 @@ export interface FileRouteTypes {
     | '/subjects'
     | '/tasks'
     | '/teacher'
+    | '/teacher/assignments'
     | '/teacher/dashboard'
+    | '/teacher/subjects'
+    | '/teacher/submissions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -264,6 +300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/assignments': {
+      id: '/teacher/assignments'
+      path: '/assignments'
+      fullPath: '/teacher/assignments'
+      preLoaderRoute: typeof TeacherAssignmentsRouteImport
+      parentRoute: typeof TeacherRoute
+    }
     '/teacher/dashboard': {
       id: '/teacher/dashboard'
       path: '/dashboard'
@@ -271,15 +314,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherDashboardRouteImport
       parentRoute: typeof TeacherRoute
     }
+    '/teacher/subjects': {
+      id: '/teacher/subjects'
+      path: '/subjects'
+      fullPath: '/teacher/subjects'
+      preLoaderRoute: typeof TeacherSubjectsRouteImport
+      parentRoute: typeof TeacherRoute
+    }
+    '/teacher/submissions': {
+      id: '/teacher/submissions'
+      path: '/submissions'
+      fullPath: '/teacher/submissions'
+      preLoaderRoute: typeof TeacherSubmissionsRouteImport
+      parentRoute: typeof TeacherRoute
+    }
   }
 }
 
 interface TeacherRouteChildren {
+  TeacherAssignmentsRoute: typeof TeacherAssignmentsRoute
   TeacherDashboardRoute: typeof TeacherDashboardRoute
+  TeacherSubjectsRoute: typeof TeacherSubjectsRoute
+  TeacherSubmissionsRoute: typeof TeacherSubmissionsRoute
 }
 
 const TeacherRouteChildren: TeacherRouteChildren = {
+  TeacherAssignmentsRoute: TeacherAssignmentsRoute,
   TeacherDashboardRoute: TeacherDashboardRoute,
+  TeacherSubjectsRoute: TeacherSubjectsRoute,
+  TeacherSubmissionsRoute: TeacherSubmissionsRoute,
 }
 
 const TeacherRouteWithChildren =
