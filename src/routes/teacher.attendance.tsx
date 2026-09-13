@@ -18,7 +18,7 @@ export const Route = createFileRoute("/teacher/attendance")({
       { property: "og:description", content: "Mark attendance and export reports." },
     ],
   }),
-  component: TeacherAttendance;
+  component: TeacherAttendance,
 });
 
 type AttRow = { id: string; student_id: string; class_date: string; status: string };
